@@ -20,6 +20,16 @@ REACT_APP_BASE_URL_ADD_TO_CART
 
 Please be sure the right configuration.
 
+## Development environment
+
+- Need to run the command npm install in the main folder of the project.
+
+* For facility to create the app please run the easy json server in the route:
+  cart-integration-jsonserver, you can find it in the route:
+  https://github.com/mgallegoa/cart-integration-jsonserver
+
+- You can avoid the CROSS Origin error just adding at the start of the request URL the next line: https://cors-anywhere.herokuapp.com/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

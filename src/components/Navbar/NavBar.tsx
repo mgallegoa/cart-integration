@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,9 +9,7 @@ import Link from '@material-ui/core/Link'
 import { Avatar, Badge, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { RootStateOrAny, useSelector } from 'react-redux';
-import { addToCartIntegration } from '../../services/HTTPServices';
 import { getStringForIdsQuantity } from '../../utils/appUtils';
-import CartIntegration from '../Integrations/CartIntegration';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -32,8 +30,6 @@ const NavBar = () => {
     const classes = useStyles();
     const cart = useSelector((state: RootStateOrAny) => state.Cart);
     const [open, setOpen] = useState(false);
-    const [openIntegrationNewWindow, setOpenIntegrationNewWindow] = useState(false);
-    const [integrationResponse, setIntegrationResponse] = useState("");
     const [userFeedbackMsg, setUserFeedbackMsg] = useState("");
     const handleClose = () => {
       setOpen(false);
@@ -47,13 +43,12 @@ const NavBar = () => {
           setOpen(true);
           return;
         }
-        const response = await addToCartIntegration(idsQuantity);
-        setIntegrationResponse(response.data);
-        setOpenIntegrationNewWindow(true);
+        window.open(`${process.env.REACT_APP_BASE_URL_ADD_TO_CART}/0/2?items=${idsQuantity}&veh=aff&sourceid=imp_Xk1U1eWRkxyJRw3wUx0Mo38zUkix7TWhry3qyg0&veh=aff&wmlspartner=imp_1789939&clickid=Xk1U1eWRkxyJRw3wUx0Mo38zUkix7TWhry3qyg0`,'_blank');
+        setUserFeedbackMsg(`Cart products was send successful.`);
       }catch(error) {
         setUserFeedbackMsg(`Error: saving the product to cart service. Cause by ${error}`);
-        setOpen(true);
       }
+      setOpen(true);
     }
 
     return (
@@ -100,10 +95,6 @@ const NavBar = () => {
           <Button onClick={handleClose} color="primary" autoFocus>Ok</Button>
         </DialogActions>
       </Dialog>
-      {openIntegrationNewWindow ? 
-        <CartIntegration drawData={integrationResponse} /> : 
-        <Fragment></Fragment>
-      }
     </div>
     );
 }
